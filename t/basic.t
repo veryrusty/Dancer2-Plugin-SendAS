@@ -18,11 +18,12 @@ use HTTP::Request::Common;
     };
 
     get '/json/**' => sub {
-        send_as json => [ splat ];
+        send_as json => splat;
     };
-    
+
     get '/yaml/**' => sub {
-        [ splat ];
+        my @params = splat;
+        \@params;
     };
 
 }
@@ -50,7 +51,7 @@ note "send_as json"; {
     is $res->code, '200';
     is $res->content_type, 'application/json';
 
-    is $res->content, '[["is","wonderful"]]';
+    is $res->content, '["is","wonderful"]';
 }
 
 note "send_as html"; {
