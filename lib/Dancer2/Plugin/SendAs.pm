@@ -30,10 +30,11 @@ register send_as => sub {
     }
     else {
         # send as HTML
+        # TODO use content type of app
         $content = Encode::encode( 'UTF-8', $data );
-        $options{content_type} = 'text/html; charset=UTF-8';        
+        $options{content_type} = 'text/html; charset=UTF-8';
     }
-    
+
     $dsl->app->send_file( \$content, %options );
 }, { prototype => '$@' };
 
