@@ -6,29 +6,33 @@ use warnings;
 
 use Dancer2::Plugin;
 
-use Class::Load 'load_class';
+use Class::Load 'try_load_class';
 use Encode;
+use List::Util 'first';
 
 register send_as => sub {
-    my ( $dsl, $type, $data ) = @_
+    my ( $dsl, $type, $data ) = @_;
 
-    my $serializer_class = load_class( "Dancer2::Serializer::$type" )
-                        || load_class( "Dancer2::Serializer::" . uc $type );
-    my $headers = {};
+    # allow lower cased serializer names
+    my $serializer_class = first { try_load_class($_) }
+                           map { "Dancer2::Serializer::$_" }
+                           ( uc $type, $type );
+
+    my %options = ();
     my $content;
 
     if ( $serializer_class ) {
         my $serializer = $serializer_class->new;
-        $content = $serializer->serialize( $data )
-        $headers->{content_type} = $serializer->content_type;
+        $content = $serializer->serialize( $data );
+        $options{content_type} = $serializer->content_type;
     }
     else {
         # send as HTML
         $content = Encode::encode( 'UTF-8', $data );
-        $headers->{content_type} = 'text/html; charset=UTF-8';        
+        $options{content_type} = 'text/html; charset=UTF-8';        
     }
     
-    $dsl->app->send_file( \$content, $headers );
+    $dsl->app->send_file( \$content, %options );
 }, { prototype => '$@' };
 
 register_plugin;
