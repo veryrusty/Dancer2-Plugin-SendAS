@@ -46,6 +46,23 @@ register_plugin;
 
 =encoding utf-8
 
+=head1 DESCRIPTION
+
+This plugin makes it easy to return a specific content type from routes.
+
+When an app has a serializer defined, returning HTML content is messy. You
+could use C<send_file>, but need to take care of encoding yourself, adding
+unnecessary boilerplate. Another solution is to split your app; resulting
+in routes that return serialized content separated from routes that return
+HTML. If there are a small number of routes (think O(1)) that return HTML,
+splitting the app is tedious.
+
+Conversly, returning serialized content from a small number of routes from
+an app that otherwise returns HTML has similar issues.
+
+This plugin provides a C<send_as> keyword, allowing content to be returned
+from any available Dancer2 serializer, or HTML.
+
 =head1 SYNOPSIS
 
     use Dancer2;
@@ -61,6 +78,26 @@ register_plugin;
     get '/json/**' => sub {
         send_as json => splat;
     };
+
+=head1 METHODS
+
+=head2 send_as type => content
+
+Send the content "serialized" using the specified serializer, or as HTML if no
+matching serializer is found.
+
+Any available Dancer2 serializer may be used. Serializers are loaded at runtime
+(if necessary). Both the uppercase 'type' and the provided case of the type are
+used to find an appropriate serializer class to use.
+
+The implementation of C<send_as> uses Dancer2's C<send_file>. Your route will be
+exited immediately when C<send_as> is executed. C<send_file> will stream
+content back to the client if your server supports psgi streaming.
+
+=head1 ACKNOWLEDGEMENTS
+
+This module has been written during the
+L<Perl Dancer 2015|https://www.perl.dance/> conference.
 
 =cut
 
