@@ -1,5 +1,5 @@
 package Dancer2::Plugin::SendAs;
-# ABSTRACT: Dancer2 plugin to send data as specific content type
+# ABSTRACT: (DEPRECATED) Dancer2 plugin to send data as specific content type
 
 use strict;
 use warnings;
@@ -48,7 +48,10 @@ register_plugin;
 
 =head1 DESCRIPTION
 
-This plugin makes it easy to return a specific content type from routes.
+This plugin is DEPRECATED. The C<send_as> functionality was merged into
+L<Dancer2> v0.200000.
+
+A plugin to make it easy to return a specific content type from routes.
 
 When an app has a serializer defined, returning HTML content is messy. You
 could use C<send_file>, but need to take care of encoding yourself, adding
