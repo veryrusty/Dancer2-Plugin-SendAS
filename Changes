@@ -1,6 +1,7 @@
 Revision History for Dancer2::Plugin::SendAs
 
 {{$NEXT}}
+  * DEPRECATED: Functionality added to Dancer2 v0.200000.
 
 0.001     2015-10-21T16:22:23CEST+0200
 
