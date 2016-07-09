@@ -1,10 +1,10 @@
 # NAME
 
-Dancer2::Plugin::SendAs - Dancer2 plugin to send data as specific content type
+Dancer2::Plugin::SendAs - (DEPRECATED) Dancer2 plugin to send data as specific content type
 
 # VERSION
 
-version 0.001
+version 0.002
 
 # SYNOPSIS
 
@@ -24,7 +24,10 @@ version 0.001
 
 # DESCRIPTION
 
-This plugin makes it easy to return a specific content type from routes.
+This plugin is DEPRECATED. The `send_as` functionality was merged into
+[Dancer2](https://metacpan.org/pod/Dancer2) v0.200000.
+
+A plugin to make it easy to return a specific content type from routes.
 
 When an app has a serializer defined, returning HTML content is messy. You
 could use `send_file`, but need to take care of encoding yourself, adding
